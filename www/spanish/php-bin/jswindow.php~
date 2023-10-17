@@ -1,0 +1,12 @@
+<script language="javascript">
+
+<!--Open new window-->
+function owindow($file)
+{
+   
+nwindow=window.open($file,"nwindow","toolbar=no,location=no,directories=no,status=no,menubar=no,scrollbars=yes,resizable=yes,width=600,height=600")
+}
+
+<!--End Open new window-->
+
+</script>

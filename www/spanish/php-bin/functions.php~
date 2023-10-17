@@ -1,0 +1,289 @@
+<?php
+// function definitions [some from Greenspan and Bulger book]
+
+
+// string cleanup_text ([string value [, string preserve [, string allowed_tags]]])
+// This function uses the PHP function htmlspecialchars() to convert
+// special HTML characters in the first argument (&,",',<, and >) to their
+// equivalent HTML entities. If the optional second argument is empty,
+// any HTML tags in the first argument will be removed. The optional
+// third argument lets you specify specific tags to be spared from
+// this cleansing. The format for the argument is "<tag1><tag2>".
+function cleanup_text ($value = "", $preserve="", $allowed_tags="")
+{
+	if (empty($preserve))
+	{
+		$value = strip_tags($value, $allowed_tags);
+	}
+	$value = htmlspecialchars($value);
+	return $value;
+}
+
+// int safe_query ([string query])
+// This function will execute an SQL query against the currently open
+// MySQL database. If the global variable $query_debug is not empty,
+// the query will be printed out before execution. If the execution fails,
+// the query and any error message from MySQL will be printed out, and
+// the function will return FALSE. Otherwise, it returns the MySQL
+// result set identifier.
+function safe_query ($query = "")
+{
+	global	$query_debug;
+
+	if (empty($query)) { return FALSE; }
+
+	if (!empty($query_debug)) { print "<pre>$query</pre>\n"; }
+
+	$result = mysql_query($query)
+		or die("ack! query failed: "
+			."<li>errorno=".mysql_errno()
+			."<li>error=".mysql_error()
+			."<li>query=".$query
+		);
+	return $result;
+}
+
+
+// date_drop_down_box(string select_name)
+// Create a drop down box for date.  Values are defined in the global variables
+// $day_array, $month_array, $year_array.
+function date_drop_down_box($select_name,$select_value)
+{
+	global $day_array;
+	global $month_array;
+	global $year_array;
+
+	$option_block = "";
+
+	if ($select_name == "month")
+		{ $an_array = $month_array; }
+	if ($select_name == "day")
+		{ $an_array = $day_array; }
+	if ($select_name == "year")
+		{ $an_array = $year_array; }
+
+	foreach ( $an_array as $key => $value )
+		{
+		if ($key == $select_value)
+			{
+			$option_block .= "\t<option value=\"$key\" selected>".$value."</option>\n";
+			}
+		else
+			{
+			$option_block .= "\t<option value=\"$key\">".$value."</option>\n";
+			}
+		}
+	echo $option_block;
+}
+
+// db_drop_down_box(string table, string lookup_code, string lookup_description, string default_value)
+function db_lookup_drop_down_box($table,$code,$descrip,$selected)
+{
+	// create SQL statement
+	$query = "SELECT ".$code.", ".$descrip." FROM ".$table
+		." ORDER BY ".$code." ASC";
+
+	// execute SQL query and get result
+     	$result = safe_query($query);
+
+	// put data into drop-down list box
+	while ($row = mysql_fetch_array($result))
+		{
+		$value  = $row[$code];
+		$label  = $row[$descrip];
+		if ($value == $selected)
+			{
+			$option_block = $option_block."<OPTION value=\"$value\" selected>$label</OPTION>";
+			}
+		else
+			{
+			$option_block = $option_block."<OPTION value=\"$value\">$label</OPTION>";
+			}
+		}
+	echo "$option_block";
+}
+
+function db_lookup_checkbox($table,$code,$descrip,$num_rows)
+{
+	// create SQL statement
+	$query = "SELECT mod(".$code.",".$num_rows.") as row_no, "
+                  .$code." as code, ".$descrip." as description"
+	          ." FROM ".$table
+	          ." WHERE ".$code." is not null"
+	          ." ORDER BY mod(".$code.", ".$num_rows.") ASC";
+	//echo $query;
+	$result = safe_query($query);
+
+	if (mysql_num_rows($result)!=0)
+	  {
+	    $prev_row=0;
+	    print "<table width=\"100%\">";
+	    print "<tr>";
+	    print "<td valign=\"center\"><font size=\"0.7em\"><input type=\"checkbox\" name=\"".$code."\" value=\"0\" checked>All</font></td>";
+	    while ($row = mysql_fetch_array($result))
+	      {
+		$curr_row=$row['row_no'];
+		$value=$row['code'];
+		$label=$row['description'];
+		if ($curr_row!=$prev_row)
+		  {
+		    print "</tr><tr>";
+		  }
+		print "<td valign=\"center\"><font size=\"0.7em\"><input type=\"checkbox\" name=\"".$code."\" value=\"".$value."\">".$label."</font></td>";
+		$prev_row=$curr_row;
+	      }
+	    print "</table>";
+	  }
+
+}
+
+
+//string construct_where (string)
+//Construct where clause for web_materials table
+function construct_where($cat_code,$cc_area_code,$cc_subarea_code,$location,$title,
+		$ol_source_code,$month,$year,$day,$description,$web_url,
+		$pdf_file_name,$html_file_name,$zip_file_name,$image_file_name)
+{
+	$where_clause = "";
+	if (!empty($cat_code))
+		{
+		if (!empty($where_clause))
+			{
+			$where_clause = $where_clause." and ";
+			}
+		$where_clause = $where_clause." cat_code = '".$cat_code."'";
+		}
+	if (!empty($cc_area_code))
+		{
+		if (!empty($where_clause))
+			{
+			$where_clause = $where_clause." and ";
+			}
+		$where_clause = $where_clause." cc_area_code = '".$cc_area_code."'";
+		}
+	if (!empty($cc_subarea_code))
+		{
+		if (!empty($where_clause))
+			{
+			$where_clause = $where_clause." and ";
+			}
+		$where_clause = $where_clause." cc_subarea_code = '".$cc_subarea_code."'";
+		}
+	if (!empty($location))
+		{
+		if (!empty($where_clause))
+			{
+			$where_clause = $where_clause." and ";
+			}
+		$where_clause = $where_clause." location = '".$location."'";
+		}
+	if (!empty($title))
+		{
+		if (!empty($where_clause))
+			{
+			$where_clause = $where_clause." and ";
+			}
+		$where_clause = $where_clause." title like '%".$title."%'";
+		}
+//use this while online_source maintenance[select button] is not yet resolved
+	if (!empty($ol_source_code))
+		{
+		if (!empty($where_clause))
+			{
+			$where_clause = $where_clause." and ";
+			}
+		$where_clause = $where_clause." ol_source_code like '%".$ol_source_code."%'";
+		}
+
+//	if (!empty($ol_source_code))
+//		{
+//		if (!empty($where_clause))
+//			{
+//			$where_clause = $where_clause." and ";
+//			}
+//		$where_clause = $where_clause." ol_source_code = '".$ol_source_code."'";
+//		}
+	if (!empty($year))
+		{
+		if (!empty($where_clause))
+			{
+			$where_clause = $where_clause." and ";
+			}
+		$where_clause = $where_clause." date_format(publish_date,'%Y') = date_format('".$year."-0-0','%Y')";
+		}
+	if (!empty($month))
+		{
+		if (!empty($where_clause))
+			{
+			$where_clause = $where_clause." and ";
+			}
+		$where_clause = $where_clause." date_format(publish_date,'%m') = date_format('0000-".$month."-0','%m')";
+		}
+	if (!empty($day))
+		{
+		if (!empty($where_clause))
+			{
+			$where_clause = $where_clause." and ";
+			}
+		$where_clause = $where_clause." date_format(publish_date,'%d') = date_format('0000-0-".$day."','%d')";
+		}
+	if (!empty($description))
+		{
+		if (trim($description) != "")
+			{
+				if (!empty($where_clause))
+					{
+						$where_clause = $where_clause." and ";
+					}
+				$where_clause = $where_clause." description like '%".$description."%'";
+			}
+		}
+	if (!empty($web_url))
+		{
+		if (!empty($where_clause))
+			{
+			$where_clause = $where_clause." and ";
+			}
+		$where_clause = $where_clause." web_url like '%".$web_url."%'";
+		}
+	if (!empty($pdf_file_name))
+		{
+		if (!empty($where_clause))
+			{
+			$where_clause = $where_clause." and ";
+			}
+		$where_clause = $where_clause." pdf_file_name like '%".$pdf_file_name."%'";
+		}
+	if (!empty($html_file_name))
+		{
+		if (!empty($where_clause))
+			{
+			$where_clause = $where_clause." and ";
+			}
+		$where_clause = $where_clause." html_file_name like '%".$html_file_name."%'";
+		}
+	if (!empty($zip_file_name))
+		{
+		if (!empty($where_clause))
+			{
+			$where_clause = $where_clause." and ";
+			}
+		$where_clause = $where_clause." zip_file_name like '%".$zip_file_name."%'";
+		}
+	if (!empty($image_file_name))
+		{
+		if (!empty($where_clause))
+			{
+			$where_clause = $where_clause." and ";
+			}
+		$where_clause = $where_clause." image_file_name like '%".$image_file_name."%'";
+		}
+
+	if (!empty($where_clause))
+		{
+		$where_clause = "where ".$where_clause." ";
+		}
+	return $where_clause;
+}
+
+?>

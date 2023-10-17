@@ -1,0 +1,71 @@
+<td class="rightsb">
+
+<!-- Start of Right Sidebar -->
+
+<table width="100%" valign="top" align="center" border="0" cellspacing="0">
+<tr><td class="menuright">Current Projects</td></tr>
+<tr><td class="menuright_item"><a class="menuitem2" href="http://www.klima.ph/cd4cdm/"><img src="06_about/01_projects/02_cd4cdm/cd4cdm.png" alt="CD4CDM" /></a></td></tr>
+<tr><td class="menuright_item"><a class="menuitem2" href="06_about/01_projects.php#devcap"><img src="06_about/01_projects/01_devcap/devcap.png" alt="DevCap" /></a></td></tr>
+<tr><td class="menuright_bottom">&nbsp;</td></tr>
+<tr><td class="menuspacer"></td></tr>
+<tr><td class="menuright">Climate & Weather</td></tr>
+<tr><td class="menuright_item"><a class="menuitem2" href="07_webservices/02_weather/satellite_image.php"><img src="07_webservices/02_weather/latest.jpg" width="110" alt="Weather Satellite Imagery"></a></td></tr>
+<tr><td class="menuright_bottom">&nbsp;</td></tr>
+<tr><td class="menuspacer"></td></tr>
+<tr><td class="menuright">Activities</td></tr>  
+<?php
+/*	$query = "select title, web_url, description,
+                        date_format(publish_date,'%M %Y') as pub_date, 
+                        publish_date, ol_source_code
+			from web_materials
+			where 
+			cat_code = '3' and 
+                        publish_date > curdate()  
+			order by publish_date asc, location
+			limit 0,3";
+	$result = safe_query($query);
+	$preserve = "";
+
+*/
+
+	$query = "select A.title as title,
+                      date_format(A.start_date,'%M %Y') as pub_date,
+                      A.description as description,
+                      A.web_url as web_url
+                  FROM events A, web_materials B 
+                  WHERE A.web_mat_no=B.web_mat_no 
+                     and B.cat_code='3' 
+                     and A.start_date>date_sub(curdate(), interval '7' day) 
+                  order by A.end_date ";
+	 //echo $query;
+	$result=safe_query($query);
+        if (mysql_num_rows($result)==0)
+	  {
+	    print "<tr><td class=\"menucenter\">";
+	    print "There are no climate-related activities scheduled at this time.";
+	    print "</td></tr>";
+	  }
+	else
+	  {
+	    while ($row = mysql_fetch_array($result))
+	      {
+		print "<tr><td class=\"menuright_item\">";
+		if (!empty($row['web_url']))
+		  {
+		    print "<a href=\"".$row['web_url']."\">".$row['title']."</a><br />(".$row['pub_date'].")";
+		  }
+		else
+		  {
+		    print $row['title']."<br />(".$row['pub_date'].")";
+		  }
+		print "</td></tr>";
+	      }
+	  }
+?>
+<tr><td class="menuright_more"><a href="calendar.php">more >>></a></td></tr>
+
+</table>
+
+<!-- End of Right Sidebar -->
+
+</td>

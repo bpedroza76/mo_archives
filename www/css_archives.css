@@ -1,0 +1,30 @@
+@import url("link.css");
+.background {
+	background-image: url(pictures/Untitled-1.gif);
+	background-repeat: repeat-x;
+	background-color: #E1DDD9;
+}
+.table1 {
+	background-color: #E2D5B3;
+	border: 1px solid #77624D;
+}
+.table2 {
+	background-color: #F0E8CE;
+	border: 1px solid #77624D;
+}
+.s_text {
+	font-family: "Tahoma", Times, serif;
+	font-size: 7pt;
+	color: #333333;
+}
+.m_text {
+	font-family: "Tahoma", Times, serif;
+	font-size: 10pt;
+	color: #333333;
+}
+.l_text {
+	font-family: "Tahoma", Times, serif;
+	font-size: 13pt;
+	color: #333333;
+	font-weight: bold;
+}

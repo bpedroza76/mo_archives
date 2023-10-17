@@ -1,0 +1,32 @@
+version: '3'
+services:
+  php5:
+    image: ffmtriare/apache-php54
+    environment:
+      PHP_php5enmod: 'mysqli'
+      HTTPD_a2enmod: 'rewrite headers'
+    volumes:
+      - "./www:/var/www/html"
+    ports:
+      - "3010:80"
+    depends_on:
+      - mysqldb
+  phpmyadmin:
+    image: phpmyadmin/phpmyadmin
+    ports:
+      - "3011:80"
+    environment:
+      PMA_HOST: mysqldb
+    depends_on:
+      - mysqldb
+  mysqldb:
+    image: mysql:5.7
+    volumes:
+      # - ./db_init:/docker-entrypoint-initdb.d
+      - ./db:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: ${MYSQL_DATABASE}
+      MYSQL_ROOT_PASSWORD: ${MYSQL_ROOT_PASSWORD}
+      MYSQL_USER: ${MYSQL_USER}
+      MYSQL_PASSWORD: ${MYSQL_PASSWORD}
+  

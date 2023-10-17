@@ -1,0 +1,76 @@
+<td class="leftsb">
+
+<table width="100%" valign="top" align="center" border="0" cellspacing="0">
+<tr><td>
+<map NAME="MAP1">
+<area SHAPE=RECT COORDS="0,107,143,125" HREF="policy.php" TARGET="_self" ALT="Policy">
+<area SHAPE=RECT COORDS="0,83,143,101" HREF="mitigation.php" TARGET="_self" ALT="Mitigation">
+<area SHAPE=RECT COORDS="0,58,143,77" HREF="vanda.php" TARGET="_self" ALT="Adaptation">
+<area SHAPE=RECT COORDS="0,34,143,52" HREF="science.php" TARGET="_self" ALT="Science">
+<area SHAPE=RECT COORDS="0,9,143,28" HREF="intro.php" TARGET="_self" ALT="Introduction">
+</map>
+<img SRC="images/menu_intro.png" NAME="Graphic1" ALIGN=LEFT BORDER=0 USEMAP="#MAP1">
+</td></tr>
+<tr><td class="menuspacer"></td></tr>
+<tr><td>
+<map NAME="MAP2">
+<area SHAPE=RECT COORDS="1,79,144,95" HREF="resources.php" TARGET="_self" ALT="Climate Resources">
+<area SHAPE=RECT COORDS="1,57,144,73" HREF="publications.php" TARGET="_self" ALT="Publications">
+<area SHAPE=RECT COORDS="1,33,144,50" HREF="training.php" TARGET="_self" ALT="Training Courses">
+<area SHAPE=RECT COORDS="1,11,144,26" HREF="public_briefings.php" TARGET="_self" ALT="Public Briefings">
+</map>
+<img SRC="images/menu_services.png" NAME="Graphic2" ALIGN=LEFT BORDER=0 USEMAP="#MAP2">
+</td></tr>
+<tr><td colspan="3" class="menuspacer"></td></tr>
+<tr><td colspan="3" align="center">
+<form method="post" action="search.php">
+<input type="text" name="scriteria" size="15" maxlength="50" style="valign:center;border:1px #b4b5ba solid; background:none;font:8pt monospace;margin-top:0.2em"><br />
+<input type="submit" name="submit" value="Search" style="border-width:1px;border-style:solid;font:8pt arial;background:none;color:#19519e;padding-top:0.5px;margin-top:3px">
+</form>
+</td></tr>
+
+</table>
+
+<!-- Start of Left Sidebar ------------------------------------------
+<table width="100%" valign="top" align="left" border="0" cellspacing="0">
+<tr>
+<td class="corners"><img class="corners" src="images/cir_upper_left.png" align="left" valign="top"></td>
+<td class="menuleft_top">&nbsp;</td>
+<td class="corners"><img class="corners" src="images/sq_upper_right.png" align="right" valign="top"></td>
+</tr>
+<tr><td colspan="3" class="menuleft"><a class="menuitem2" href="intro.php">Introduction</a></td></tr>
+<tr><td colspan="3" class="menuleft"><a class="menuitem2" href="science.php">Science</a></td></tr>
+<tr><td colspan="3" class="menuleft"><a class="menuitem2" href="vanda.php">Adaptation</a></td></tr>
+<tr><td colspan="3" class="menuleft"><a class="menuitem2" href="mitigation.php">Mitigation</a></td></tr>
+<tr>
+<td class="corners"><img class="corners" src="images/sq_lower_left.png" align="left" valign="bottom"></td>
+<td class="menuleft_bottom"><a class="menuitem2" href="policy.php">Policy</a></td>
+<td class="corners"><img class="corners" src="images/cir_lower_right.png" align="right" valign="bottom"></td>
+</tr>
+<tr><td colspan="3" class="menuspacer"></td></tr>
+<tr>
+<td class="corners"><img class="corners" src="images/cir_upper_left.png" align="left" valign="top"></td>
+<td class="menuleft_top">&nbsp;</td>
+<td class="corners"><img class="corners" src="images/sq_upper_right.png" align="right" valign="top"></td>
+</tr>
+<tr><td colspan="3" class="menuleft"><a class="menuitem2" href="public_briefings.php">Public Briefings</a></td></tr>
+<tr><td colspan="3" class="menuleft"><a class="menuitem2" href="training.php">Training Courses</a></td></tr>
+<tr><td colspan="3" class="menuleft"><a class="menuitem2" href="publications.php">Publications</a></td></tr>
+<tr>
+<td class="corners"><img class="corners" src="images/sq_lower_left.png" align="left" valign="bottom"></td>
+<td class="menuleft_bottom"><a class="menuitem2" href="resources.php">Climate Resources</a></td>
+<td class="corners"><img class="corners" src="images/cir_lower_right.png" align="right" valign="bottom"></td>
+</tr>
+<tr><td colspan="3" class="menuspacer"></td></tr>
+<tr><td colspan="3" align="center">
+<form method="post" action="search.php">
+<input type="text" name="scriteria" size="15" maxlength="50" style="valign:center;border:1px #b4b5ba solid; background:none;font:8pt monospace;margin-top:0.2em">
+<input type="submit" name="submit" value="SEARCH" style="border-width:1px;border-style:solid;font:8pt arial;background:none;color:#19519e;padding-top:0.5px;margin-top:3px">
+</form>
+</td></tr>
+<tr><td colspan="3" class="menuspacer"></td></tr>
+</table>
+------------------------- End of Left Sidebar -->
+
+
+</td>

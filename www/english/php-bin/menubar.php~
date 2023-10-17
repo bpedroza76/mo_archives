@@ -1,0 +1,9 @@
+<td class="menutop">
+<a class="menuitem1" href="index.php"> Home </a> |
+<a class="menuitem1" href="news.php"> News </a> |
+<a class="menuitem1" href="features.php"> Features </a> |
+<a class="menuitem1" href="calendar.php"> Events </a> |
+<a class="menuitem1" href="sitemap.php"> Site Map </a> |
+<a class="menuitem1" href="about.php"> About Us </a> |
+<a class="menuitem1" href="contact.php"> Contact Us </a> 
+</td>
